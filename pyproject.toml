@@ -1,0 +1,23 @@
+[project]
+name = "luria-delbruck-fluctuation-gaia"
+version = "0.1.0"
+description = "Formalization of Luria & Delbruck (1943) — Mutations of Bacteria from Virus Sensitivity to Virus Resistance"
+readme = "README.md"
+authors = [
+    { name = "huangyuan", email = "huangyuan@dp.tech" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "gaia-lang",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/luria_delbruck_fluctuation"]
+
+[tool.gaia]
+type = "knowledge-package"
+uuid = "b9cb82a2-9133-418d-821f-2dae35a15b84"
