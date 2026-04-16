@@ -1,0 +1,131 @@
+{
+  "ir_hash": "sha256:e9c80253b05129e26769eda9a2e139f8417c92957ecce1d2cb5de4000db37883",
+  "manifest_schema_version": 1,
+  "package": "luria-delbruck-fluctuation",
+  "premises": [
+    {
+      "content": "A culture grown to saturation was tested repeatedly for resistant bacteria and total bacteria over several days. The proportion of resistant bacteria did not change, even when the sensitive bacteria began to die. This shows that resistant bacteria have the same death rate in aging cultures as sensitive bacteria — resistance to virus does not generally come to expression in the cell where the mutation occurred, as assumed by the theory.",
+      "content_hash": "dff185a844dba25bae85e4c19000fc14f7cdb38117fa51dd754b3a9f1c25c47b",
+      "exported": false,
+      "interface_hash": "sha256:c7bf87331c1ad92e74ff5ae521bab14a5c6f5326587e457719c03b45fa90f00f",
+      "label": "aging_cultures_constant_fraction",
+      "qid": "github:luria_delbruck_fluctuation::aging_cultures_constant_fraction",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "The experimental ratio of standard deviation to mean number of resistant bacteria per culture was compared to the theoretical prediction from the mutation hypothesis (equation 12). Representative values:\n\n| Experiment | Std.dev./mean (exp.) | Std.dev./mean (calc.) |\n|-----------|---------------------|----------------------|\n| 1         | 1.3                 | 0.35                 |\n| 11        | 0.33                | 0.33                 |\n| 16        | 2.3                 | 0.94                 |\n| 21a       | 0.67                | 1.04                 |\n| 22        | 7.8                 | 1.5                  |\n| 23        | 2.8                 | 1.5                  |\n\nIn all but one case, the experimental ratio exceeds the calculated value, meaning the variability is even greater than the mutation theory predicts. The discrepancy is attributed to early mutations prior to time $t_0$ that were not accounted for in the simplified theory.",
+      "content_hash": "72637b26f48745f0ec9832dae766b7cee1453820c54084a47d3ee9d33736dfcd",
+      "exported": false,
+      "interface_hash": "sha256:abf184db71af31f97759183b4983d750abeb1215e4be5d032bb7cf1dd6703dab",
+      "label": "experimental_std_dev_ratio",
+      "qid": "github:luria_delbruck_fluctuation::experimental_std_dev_ratio",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "The numbers of resistant bacteria in series of similar cultures (Table 2) show enormous variation across cultures, far exceeding sampling error. Representative experiments:\n\n| Exp. | Cultures | Vol. (cc) | Avg/culture | Bacteria/culture | Mutation rate |\n|------|----------|-----------|-------------|------------------|---------------|\n| 1    | 9        | 10.0      | 5360        | $3.4 \\times 10^{10}$ | $1.8 \\times 10^{-8}$ |\n| 11   | 10       | 10.0      | 12400       | $4.1 \\times 10^{10}$ | $4.1 \\times 10^{-8}$ |\n| 16   | 20       | 0.2*      | 28.4        | $5.6 \\times 10^{8}$  | $1.1 \\times 10^{-8}$ |\n| 21a  | 19       | 0.2       | 15.1        | $3.5 \\times 10^{8}$  | $3.3 \\times 10^{-8}$ |\n| 23   | 87       | 0.2*      | 28.6        | $2.4 \\times 10^{8}$  | $2.37 \\times 10^{-8}$ |\n\n(* synthetic medium). Within each experiment, some cultures have 0 resistant bacteria while others have hundreds, demonstrating the 'jackpot' phenomenon.",
+      "content_hash": "0b7156b0b41814c19bc26c2dd826286890dbdfb164c61ea209baf88f417125c0",
+      "exported": false,
+      "interface_hash": "sha256:d99c6e1d517e99178752b93a86ad470f839dba82a8529072d79410e71eaeb435",
+      "label": "fluctuation_data_table2",
+      "qid": "github:luria_delbruck_fluctuation::fluctuation_data_table2",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "The distribution of resistant bacteria counts across large series of similar cultures (Table 3) shows:\n\n| Resistant bacteria | Exp. 22 (100 cultures) | Exp. 23 (87 cultures) |\n|-------------------|------------------------|----------------------|\n| 0                 | 57                     | 29                   |\n| 1                 | 20                     | 17                   |\n| 2                 | 5                      | 4                    |\n| 3                 | 2                      | 3                    |\n| 4                 | 3                      | 3                    |\n| 5                 | 1                      | 2                    |\n| 6-10              | 7                      | 5                    |\n| 11-20             | 2                      | 6                    |\n| 21-50             | 2                      | 7                    |\n| 51-100            | 0                      | 5                    |\n| 101-200           | 0                      | 2                    |\n| 201-500           | 0                      | 4                    |\n| 501-1000          | 1                      | 0                    |\n\nThe distribution has a heavy right tail with rare 'jackpot' cultures. Exp. 22: mean 10.12, variance (corrected) 6270. Exp. 23: mean 28.6, variance (corrected) 6431.",
+      "content_hash": "25d62e374ac26ad2f698a1a75f600774f2cfeca91937599f71f83c06e10de28f",
+      "exported": false,
+      "interface_hash": "sha256:3ba2cab0c7389cab8c2084fa0acf9eaec2cdc9e0c7ffbdd2e548740013fa1727",
+      "label": "fluctuation_data_table3",
+      "qid": "github:luria_delbruck_fluctuation::fluctuation_data_table3",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "Under the acquired immunity hypothesis, each bacterium independently survives virus attack with a fixed small probability. The number of survivors follows a Poisson distribution, so the variance equals the mean: $\\text{var}(\\rho) = \\bar{\\rho}$. Derivation: binomial distribution with small success probability → Poisson approximation → variance = mean.",
+      "content_hash": "cca8e767dfe3e060bc17d60b61f68430a38fa0b3b3e8066fb90660b9ff95a9e0",
+      "exported": false,
+      "interface_hash": "sha256:e97638c3f65cb0359f27f46009df41d95f8093e4dac580daf5afdf21f52be9ec",
+      "label": "immunity_variance_equals_mean",
+      "qid": "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "Under the mutation hypothesis, the average number of resistant bacteria per culture $r$ relates to the mutation rate $a$ via the transcendental equation $r = a N_t \\ln(N_t C a)$ (equation 8), solvable numerically for $a$ given observed $r$, $N_t$, and $C$. Derivation: the average $\\rho = t a N_t$ (equation 6), corrected for finite samples by excluding mutations before $t_0$ (chosen so on average one mutation occurred before $t_0$ across $C$ cultures).",
+      "content_hash": "dc7cec39ff8c278ae87254df41dc9ffb8036942510ad4e038daf876a1aee5553",
+      "exported": false,
+      "interface_hash": "sha256:a5404aa0d2f7ac2204737303cbdcac01f935494f6467f1e91e41074e5c590744",
+      "label": "mean_method_mutation_rate",
+      "qid": "github:luria_delbruck_fluctuation::mean_method_mutation_rate",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "Under the mutation hypothesis, the variance of the number of resistant bacteria across replicate cultures is much greater than the mean. The likely variance is $\\text{var}_r = C a^2 N_t^2$ (equation 11), giving a ratio $\\sqrt{\\text{var}_r}/r = \\sqrt{C}/\\ln(N_t C a)$ (equation 12), which is >> 1. Derivation: superposition of partial distributions for clones of each age, each Poisson-distributed, with clone size growing exponentially — the 'slot machine' effect where rare early mutations produce jackpots.",
+      "content_hash": "0acb270e33b16d76cda52ae1ea211761f9a0fcd27c399a359d14b070511bad8f",
+      "exported": false,
+      "interface_hash": "sha256:c970fdbdc85dad4412c8f524a1c5126a8ed327d390d8dadf9e7bf9db70a3d04a",
+      "label": "mutation_high_variance",
+      "qid": "github:luria_delbruck_fluctuation::mutation_high_variance",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::hypothesis_mutation",
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "Experiments in 10.0 cc broth cultures (Exp. 1, 10, 11, 15, 21b) yield mutation rates of $1.8$, $1.4$, $4.1$, $2.1$, and $3.0 \\times 10^{-8}$ mutations per bacterium per time unit, respectively (Table 4).",
+      "content_hash": "a736ebedb0825da199fde8d5e06c6f528796e18f2ad7196bf2dbb31ed6fb8b6e",
+      "exported": false,
+      "interface_hash": "sha256:d90804ee02e278cafeb34d77d71ab26e247c5a7d9661e81e0955be39083b1db2",
+      "label": "obs_broth_rate",
+      "qid": "github:luria_delbruck_fluctuation::obs_broth_rate",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "Experiments in 0.2 cc synthetic medium cultures (Exp. 16, 17, 22, 23) yield mutation rates of $1.1$, $3.0$, $2.3$, and $2.4 \\times 10^{-8}$ mutations per bacterium per time unit, respectively (Table 4).",
+      "content_hash": "77a5ffbb48f7b0329e779527f1dfecc92b74c26aa62ed48e1a8fe5f6ee99af4f",
+      "exported": false,
+      "interface_hash": "sha256:1a1dea1898101c67eedac5ba946bd301163ad2bf5c5930fc389b225fedf1aeea",
+      "label": "obs_synth_rate",
+      "qid": "github:luria_delbruck_fluctuation::obs_synth_rate",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "In three plating reliability experiments (Table 1), parallel samples from the same culture were plated and resistant colonies counted:\n\n| Experiment | Mean | Variance | $\\chi^2$ | P |\n|-----------|------|----------|----------|---|\n| Exp. 10a  | 16.7 | 15       | 9        | 0.4 |\n| Exp. 11a  | 51.4 | 27       | 5.3      | 0.8 |\n| Exp. 3    | 3.3  | 3.8      | 12       | 0.2 |\n\nIn all three cases, the variance and mean agree as expected for Poisson sampling. There is no evidence that the plating method introduces fluctuations beyond sampling error.",
+      "content_hash": "9b1b08776a8aba50b76d144d215132cd1004069a36fa5ebfbd97aa9cbf3fc9bf",
+      "exported": false,
+      "interface_hash": "sha256:1a44a75ac7fa0dbf03851e09a5ec466e57ecb094604f75b3ee1399e0fa6df86e",
+      "label": "plating_variance_equals_mean",
+      "qid": "github:luria_delbruck_fluctuation::plating_variance_equals_mean",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
+        "github:luria_delbruck_fluctuation::hypothesis_mutation",
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    }
+  ],
+  "version": "0.1.0"
+}

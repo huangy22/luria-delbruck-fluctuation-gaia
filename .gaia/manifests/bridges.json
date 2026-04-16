@@ -1,0 +1,7 @@
+{
+  "bridges": [],
+  "ir_hash": "sha256:e9c80253b05129e26769eda9a2e139f8417c92957ecce1d2cb5de4000db37883",
+  "manifest_schema_version": 1,
+  "package": "luria-delbruck-fluctuation",
+  "version": "0.1.0"
+}

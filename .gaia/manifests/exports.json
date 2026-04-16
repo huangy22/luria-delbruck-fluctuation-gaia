@@ -1,0 +1,36 @@
+{
+  "exports": [
+    {
+      "content": "Hypothesis of acquired hereditary immunity: There is a small finite probability for any bacterium to survive an attack by the virus. Survival confers immunity not only to the individual but also to its offspring. The probability of survival in the first instance does not run in clones; if we find that a bacterium survives an attack, we cannot from this information alone infer that close relatives are likely to survive the attack.",
+      "content_hash": "81015341aa0b0327f633bf60417d17ddcb34dfe8d28bcb55d3e11d412705bb65",
+      "label": "hypothesis_acquired_immunity",
+      "qid": "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
+      "type": "claim"
+    },
+    {
+      "content": "Hypothesis of mutation: There is a finite probability per time unit for any bacterium to mutate from 'sensitive' to 'resistant.' Every offspring of such a mutant will be resistant, unless reverse mutation occurs. The term 'resistant' means the bacterium will not be killed if exposed to virus, and the possibility of interaction with virus is left open. Mutations occur spontaneously, prior to and independently of virus exposure.",
+      "content_hash": "5481882cd12fef6856017d3da37b8646700c44004d21cb76c9eabf24b0ad1ee8",
+      "label": "hypothesis_mutation",
+      "qid": "github:luria_delbruck_fluctuation::hypothesis_mutation",
+      "type": "claim"
+    },
+    {
+      "content": "Using the mean method (equation 8: $r = a N_t \\ln(N_t C a)$) across all experiments, the mutation rates are consistent (Table 4):\n\n| Experiment | Cultures | Vol. (cc) | Mutation rate |\n|-----------|----------|-----------|---------------|\n| 1         | 9        | 10.0      | $1.8 \\times 10^{-8}$ |\n| 10        | 8        | 10.0      | $1.4 \\times 10^{-8}$ |\n| 11        | 10       | 10.0      | $4.1 \\times 10^{-8}$ |\n| 15        | 10       | 10.0      | $2.1 \\times 10^{-8}$ |\n| 16        | 20       | 0.2*      | $1.1 \\times 10^{-8}$ |\n| 17        | 12       | 0.2*      | $3.0 \\times 10^{-8}$ |\n| 21a       | 19       | 0.2       | $3.3 \\times 10^{-8}$ |\n| 21b       | 5        | 10.0      | $3.0 \\times 10^{-8}$ |\n| 22        | 100      | 0.2*      | $2.3 \\times 10^{-8}$ |\n| 23        | 87       | 0.2*      | $2.4 \\times 10^{-8}$ |\n\nAverage: $2.45 \\times 10^{-8}$ mutations per bacterium per time unit. (* synthetic medium). The consistency across different culture volumes, media, and numbers of cultures supports the mutation hypothesis.",
+      "content_hash": "77f6340f2dce4c578ab77762420c169e7534f268612ecb436afbf060efb56569",
+      "label": "mutation_rate_mean_method",
+      "qid": "github:luria_delbruck_fluctuation::mutation_rate_mean_method",
+      "type": "claim"
+    },
+    {
+      "content": "The resistance to virus in *E. coli* B is due to a heritable change of the bacterial cell which occurs independently of the action of the virus. The experimental distribution of resistant bacteria conforms to the mutation hypothesis and conflicts with the acquired immunity hypothesis.",
+      "content_hash": "d9feef310f5dbcf58c99b91e80c95cc624261e4020283a1cebce5a17a715a28a",
+      "label": "resistance_is_heritable_mutation",
+      "qid": "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation",
+      "type": "claim"
+    }
+  ],
+  "ir_hash": "sha256:e9c80253b05129e26769eda9a2e139f8417c92957ecce1d2cb5de4000db37883",
+  "manifest_schema_version": 1,
+  "package": "luria-delbruck-fluctuation",
+  "version": "0.1.0"
+}
