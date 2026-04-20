@@ -88,7 +88,7 @@ wheels = [
 
 [[package]]
 name = "gaia-lang"
-version = "0.4.1"
+version = "0.4.3"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "faiss-cpu" },
@@ -98,9 +98,9 @@ dependencies = [
     { name = "pydantic" },
     { name = "typer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/81/43/5389b397f5d9eb56f26825f2663923b4df3784aabddb13892b6680b4bfca/gaia_lang-0.4.1.tar.gz", hash = "sha256:73aeea0e4cf9662cf70acb7e997dca7132915731503620b80de8edd4ebbad287", size = 182033, upload-time = "2026-04-14T06:51:22.921Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/2f/e2/1a84ef0e1605976837f899d66ca0520d902348ea439cef5fbcb04a4d24d1/gaia_lang-0.4.3.tar.gz", hash = "sha256:331ffe7e2e092973b90065e2ff765eec151df245ba785205cd34df4c418dfb54", size = 190312, upload-time = "2026-04-20T11:31:16.505Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/d6/f1/757e674ba8fc43f4b8415ee1e9ac63d52444ff1103c335b6ba1eab612ced/gaia_lang-0.4.1-py3-none-any.whl", hash = "sha256:508f52c8110799a2ac1f01649a81b26511f7addfd80e5228060a326977745cd8", size = 202624, upload-time = "2026-04-14T06:51:21.328Z" },
+    { url = "https://files.pythonhosted.org/packages/74/b4/89ec1f13e0c60631a2cd18fc9ea1cbfd143144861b5eacdfd530fd6ca35b/gaia_lang-0.4.3-py3-none-any.whl", hash = "sha256:d5e391027e7de28f409ebbfd20561b45ac05093501c1f628edffcdb7c1a7b9e6", size = 207881, upload-time = "2026-04-20T11:31:14.731Z" },
 ]
 
 [[package]]
@@ -158,7 +158,7 @@ dependencies = [
 ]
 
 [package.metadata]
-requires-dist = [{ name = "gaia-lang", specifier = ">=0.4.1" }]
+requires-dist = [{ name = "gaia-lang" }]
 
 [[package]]
 name = "markdown-it-py"

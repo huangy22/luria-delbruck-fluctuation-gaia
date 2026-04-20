@@ -122,27 +122,26 @@ obs_synth_rate = claim(
 )
 
 strat_broth_supports = support(
-    [obs_broth_rate],
-    fixed_mutation_rate_law,
+    [fixed_mutation_rate_law],
+    obs_broth_rate,
     reason=(
-        "@obs_broth_rate shows five independent broth culture experiments yield "
-        "mutation rates from $1.4$ to $4.1 \\times 10^{-8}$, clustered within a "
-        "narrow range. This consistency across experiments with different numbers "
-        "of cultures (5 to 10) and culture volumes supports the existence of a "
-        "fixed mutation rate."
+        "If a @fixed_mutation_rate_law exists, broth culture experiments should "
+        "yield consistent mutation rate estimates. @obs_broth_rate shows five "
+        "independent experiments yield rates from $1.4$ to $4.1 \\times 10^{-8}$, "
+        "clustered within a narrow range — confirming the law's prediction."
     ),
     prior=0.8,
 )
 
 strat_synth_supports = support(
-    [obs_synth_rate],
-    fixed_mutation_rate_law,
+    [fixed_mutation_rate_law],
+    obs_synth_rate,
     reason=(
-        "@obs_synth_rate shows four synthetic medium experiments yield mutation "
-        "rates from $1.1$ to $3.0 \\times 10^{-8}$, overlapping with the broth "
-        "culture values despite very different metabolic conditions and growth "
-        "rates. This cross-medium consistency strongly supports a fixed mutation "
-        "rate per physiological time unit."
+        "If a @fixed_mutation_rate_law exists, synthetic medium experiments should "
+        "also yield consistent rates overlapping with broth values. @obs_synth_rate "
+        "shows four experiments yield rates from $1.1$ to $3.0 \\times 10^{-8}$, "
+        "overlapping with broth despite very different metabolic conditions — "
+        "confirming the law's prediction across media."
     ),
     prior=0.8,
 )
