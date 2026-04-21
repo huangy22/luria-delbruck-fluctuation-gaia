@@ -14,6 +14,7 @@ from . import (
     fluctuation_data_table2,
     fluctuation_data_table3,
     experimental_std_dev_ratio,
+    observed_variance_much_greater_than_mean,
     # Mutation rate observations
     obs_broth_rate,
     obs_synth_rate,
@@ -64,6 +65,10 @@ PRIORS = {
     experimental_std_dev_ratio: (
         0.85,
         "Computed from raw data. Straightforward arithmetic.",
+    ),
+    observed_variance_much_greater_than_mean: (
+        0.95,
+        "Direct observation from Tables 2-3: variance exceeds mean by 100-600x in every experiment.",
     ),
     # Mutation rate observations from Table 4
     obs_broth_rate: (

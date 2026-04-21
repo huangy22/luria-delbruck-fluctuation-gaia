@@ -1,5 +1,5 @@
 {
-  "ir_hash": "sha256:e9c80253b05129e26769eda9a2e139f8417c92957ecce1d2cb5de4000db37883",
+  "ir_hash": "sha256:127245930ae5922c4d91537af9d4c8f72a88f4209800b32b1066cfb75597004b",
   "manifest_schema_version": 1,
   "package": "luria-delbruck-fluctuation",
   "premises": [
@@ -52,14 +52,26 @@
       "role": "local_hole"
     },
     {
-      "content": "Under the acquired immunity hypothesis, each bacterium independently survives virus attack with a fixed small probability. The number of survivors follows a Poisson distribution, so the variance equals the mean: $\\text{var}(\\rho) = \\bar{\\rho}$. Derivation: binomial distribution with small success probability → Poisson approximation → variance = mean.",
-      "content_hash": "cca8e767dfe3e060bc17d60b61f68430a38fa0b3b3e8066fb90660b9ff95a9e0",
-      "exported": false,
-      "interface_hash": "sha256:e97638c3f65cb0359f27f46009df41d95f8093e4dac580daf5afdf21f52be9ec",
-      "label": "immunity_variance_equals_mean",
-      "qid": "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
+      "content": "Hypothesis of acquired hereditary immunity: There is a small finite probability for any bacterium to survive an attack by the virus. Survival confers immunity not only to the individual but also to its offspring. The probability of survival in the first instance does not run in clones; if we find that a bacterium survives an attack, we cannot from this information alone infer that close relatives are likely to survive the attack.",
+      "content_hash": "81015341aa0b0327f633bf60417d17ddcb34dfe8d28bcb55d3e11d412705bb65",
+      "exported": true,
+      "interface_hash": "sha256:a7a45a4ad8355df3687314db5173e5c4543e5613304a0e543bd15e1825536938",
+      "label": "hypothesis_acquired_immunity",
+      "qid": "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
       "required_by": [
-        "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity"
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+      ],
+      "role": "local_hole"
+    },
+    {
+      "content": "Hypothesis of mutation: There is a finite probability per time unit for any bacterium to mutate from 'sensitive' to 'resistant.' Every offspring of such a mutant will be resistant, unless reverse mutation occurs. The term 'resistant' means the bacterium will not be killed if exposed to virus, and the possibility of interaction with virus is left open. Mutations occur spontaneously, prior to and independently of virus exposure.",
+      "content_hash": "5481882cd12fef6856017d3da37b8646700c44004d21cb76c9eabf24b0ad1ee8",
+      "exported": true,
+      "interface_hash": "sha256:1fe23c796e7cd1f23c70d5cf608e5852e06cc44b4a22cf696111a2025e5a3039",
+      "label": "hypothesis_mutation",
+      "qid": "github:luria_delbruck_fluctuation::hypothesis_mutation",
+      "required_by": [
+        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
       ],
       "role": "local_hole"
     },
@@ -83,31 +95,6 @@
       "label": "mutation_high_variance",
       "qid": "github:luria_delbruck_fluctuation::mutation_high_variance",
       "required_by": [
-        "github:luria_delbruck_fluctuation::hypothesis_mutation",
-        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
-      ],
-      "role": "local_hole"
-    },
-    {
-      "content": "Experiments in 10.0 cc broth cultures (Exp. 1, 10, 11, 15, 21b) yield mutation rates of $1.8$, $1.4$, $4.1$, $2.1$, and $3.0 \\times 10^{-8}$ mutations per bacterium per time unit, respectively (Table 4).",
-      "content_hash": "a736ebedb0825da199fde8d5e06c6f528796e18f2ad7196bf2dbb31ed6fb8b6e",
-      "exported": false,
-      "interface_hash": "sha256:d90804ee02e278cafeb34d77d71ab26e247c5a7d9661e81e0955be39083b1db2",
-      "label": "obs_broth_rate",
-      "qid": "github:luria_delbruck_fluctuation::obs_broth_rate",
-      "required_by": [
-        "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
-      ],
-      "role": "local_hole"
-    },
-    {
-      "content": "Experiments in 0.2 cc synthetic medium cultures (Exp. 16, 17, 22, 23) yield mutation rates of $1.1$, $3.0$, $2.3$, and $2.4 \\times 10^{-8}$ mutations per bacterium per time unit, respectively (Table 4).",
-      "content_hash": "77a5ffbb48f7b0329e779527f1dfecc92b74c26aa62ed48e1a8fe5f6ee99af4f",
-      "exported": false,
-      "interface_hash": "sha256:1a1dea1898101c67eedac5ba946bd301163ad2bf5c5930fc389b225fedf1aeea",
-      "label": "obs_synth_rate",
-      "qid": "github:luria_delbruck_fluctuation::obs_synth_rate",
-      "required_by": [
         "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
       ],
       "role": "local_hole"
@@ -120,8 +107,6 @@
       "label": "plating_variance_equals_mean",
       "qid": "github:luria_delbruck_fluctuation::plating_variance_equals_mean",
       "required_by": [
-        "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
-        "github:luria_delbruck_fluctuation::hypothesis_mutation",
         "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
       ],
       "role": "local_hole"

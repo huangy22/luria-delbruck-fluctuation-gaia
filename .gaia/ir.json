@@ -1,5 +1,5 @@
 {
-  "ir_hash": "sha256:e9c80253b05129e26769eda9a2e139f8417c92957ecce1d2cb5de4000db37883",
+  "ir_hash": "sha256:127245930ae5922c4d91537af9d4c8f72a88f4209800b32b1066cfb75597004b",
   "knowledges": [
     {
       "content": "A pure bacterial culture of *Escherichia coli* B is attacked by bacteriophage (bacterial virus) alpha. Sensitive cells are lysed (destroyed) within hours. After further incubation the culture becomes turbid again due to growth of a resistant variant that does not adsorb the virus. This variant retains resistance through many generations in the absence of virus.",
@@ -45,14 +45,8 @@
       "id": "github:luria_delbruck_fluctuation::hypothesis_mutation",
       "label": "hypothesis_mutation",
       "metadata": {
-        "gaia": {
-          "provenance": {
-            "referenced_claims": [
-              "mutation_high_variance",
-              "observed_variance_much_greater_than_mean"
-            ]
-          }
-        }
+        "prior": 0.5,
+        "prior_justification": "Uninformative prior. Evidence should determine belief."
       },
       "module": "motivation",
       "parameters": [],
@@ -67,14 +61,8 @@
       "id": "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
       "label": "hypothesis_acquired_immunity",
       "metadata": {
-        "gaia": {
-          "provenance": {
-            "referenced_claims": [
-              "immunity_variance_equals_mean",
-              "observed_variance_much_greater_than_mean"
-            ]
-          }
-        }
+        "prior": 0.5,
+        "prior_justification": "Uninformative prior. Evidence should determine belief."
       },
       "module": "motivation",
       "parameters": [],
@@ -163,6 +151,10 @@
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
       "label": "immunity_variance_equals_mean",
+      "metadata": {
+        "prior": 0.95,
+        "prior_justification": "Textbook Poisson result: independent events → variance = mean."
+      },
       "module": "theory",
       "parameters": [],
       "title": "Acquired immunity: variance equals mean (Poisson)",
@@ -175,6 +167,10 @@
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::mutation_high_variance",
       "label": "mutation_high_variance",
+      "metadata": {
+        "prior": 0.9,
+        "prior_justification": "Sound derivation with simplifying assumptions. Qualitative result robust."
+      },
       "module": "theory",
       "parameters": [],
       "title": "Mutation hypothesis: high variance (jackpot distribution)",
@@ -187,6 +183,10 @@
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::p0_mutation_rate_relation",
       "label": "p0_mutation_rate_relation",
+      "metadata": {
+        "prior": 0.95,
+        "prior_justification": "Direct Poisson property: P(0 events) = e^{-m}. Textbook result."
+      },
       "module": "theory",
       "parameters": [],
       "title": "p0 method for estimating mutation rate",
@@ -199,6 +199,10 @@
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::mean_method_mutation_rate",
       "label": "mean_method_mutation_rate",
+      "metadata": {
+        "prior": 0.85,
+        "prior_justification": "Sound derivation with finite-sample approximation."
+      },
       "module": "theory",
       "parameters": [],
       "title": "Mean method for estimating mutation rate",
@@ -224,6 +228,8 @@
       "id": "github:luria_delbruck_fluctuation::plating_variance_equals_mean",
       "label": "plating_variance_equals_mean",
       "metadata": {
+        "prior": 0.9,
+        "prior_justification": "Three independent experiments, all consistent with Poisson sampling.",
         "source_table": "artifacts/paper.pdf, Table 1"
       },
       "module": "exp_plating",
@@ -272,6 +278,8 @@
       "id": "github:luria_delbruck_fluctuation::fluctuation_data_table2",
       "label": "fluctuation_data_table2",
       "metadata": {
+        "prior": 0.9,
+        "prior_justification": "Primary data from 10 experiments. Directly observed counts.",
         "source_table": "artifacts/paper.pdf, Table 2"
       },
       "module": "exp_fluctuation",
@@ -287,6 +295,8 @@
       "id": "github:luria_delbruck_fluctuation::fluctuation_data_table3",
       "label": "fluctuation_data_table3",
       "metadata": {
+        "prior": 0.9,
+        "prior_justification": "Full distributions from 100 and 87 cultures. Large samples.",
         "source_table": "artifacts/paper.pdf, Table 3"
       },
       "module": "exp_fluctuation",
@@ -305,11 +315,16 @@
         "gaia": {
           "provenance": {
             "referenced_claims": [
+              "experimental_std_dev_ratio",
+              "hypothesis_acquired_immunity",
+              "hypothesis_mutation",
               "plating_method_reliable",
               "plating_variance_equals_mean"
             ]
           }
-        }
+        },
+        "prior": 0.95,
+        "prior_justification": "Direct observation from Tables 2-3: variance exceeds mean by 100-600x in every experiment."
       },
       "module": "exp_fluctuation",
       "parameters": [],
@@ -324,6 +339,8 @@
       "id": "github:luria_delbruck_fluctuation::experimental_std_dev_ratio",
       "label": "experimental_std_dev_ratio",
       "metadata": {
+        "prior": 0.85,
+        "prior_justification": "Computed from raw data. Straightforward arithmetic.",
         "source_table": "artifacts/paper.pdf, Tables 2-3"
       },
       "module": "exp_fluctuation",
@@ -366,8 +383,7 @@
           "provenance": {
             "referenced_claims": [
               "distribution_fit_exp23",
-              "experimental_std_dev_ratio",
-              "mutation_high_variance",
+              "mutation_predicts_clonal_grouping",
               "observed_variance_much_greater_than_mean"
             ]
           }
@@ -376,6 +392,29 @@
       "module": "exp_fluctuation",
       "parameters": [],
       "title": "Clonal grouping observed in data",
+      "type": "claim"
+    },
+    {
+      "content": "compare(Under the mutation hypothesis, the variance of the number of resistant bacteria across replicate cultures is much greater than the mean. The likely variance is $\\text{var}_r = C a^2 N_t^2$ (equation 11), giving a ratio $\\sqrt{\\text{var}_r}/r = \\sqrt{C}/\\ln(N_t C a)$ (equation 12), which is >> 1. Derivation: superposition of partial distributions for clones of each age, each Poisson-distributed, with clone size growing exponentially — the 'slot machine' effect where rare early mutations produce jackpots., Under the acquired immunity hypothesis, each bacterium independently survives virus attack with a fixed small probability. The number of survivors follows a Poisson distribution, so the variance equals the mean: $\\text{var}(\\rho) = \\bar{\\rho}$. Derivation: binomial distribution with small success probability → Poisson approximation → variance = mean., In every fluctuation experiment (Tables 2 and 3), the variance of the number of resistant bacteria across replicate cultures is tremendously higher than could be accounted for by sampling errors. This is in striking contrast to the plating reliability tests (Table 1) where variance equaled the mean, and in direct conflict with the expectation from the hypothesis of acquired immunity (which predicts Poisson-distributed counts with variance equal to mean).)",
+      "content_hash": "2af8394ff0464a704d67f988e4eb9c832b06c63173a507fec7b272e02339e80c",
+      "declaration_index": 7,
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::_anon_000",
+      "metadata": {
+        "gaia": {
+          "provenance": {
+            "referenced_claims": [
+              "immunity_variance_equals_mean",
+              "mutation_high_variance",
+              "observed_variance_much_greater_than_mean"
+            ]
+          }
+        },
+        "generated": true,
+        "helper_kind": "comparison_claim"
+      },
+      "module": "exp_fluctuation",
+      "parameters": [],
       "type": "claim"
     },
     {
@@ -452,16 +491,6 @@
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::fixed_mutation_rate_law",
       "label": "fixed_mutation_rate_law",
-      "metadata": {
-        "gaia": {
-          "provenance": {
-            "referenced_claims": [
-              "obs_broth_rate",
-              "obs_synth_rate"
-            ]
-          }
-        }
-      },
       "module": "mutation_rate",
       "parameters": [],
       "title": "Law: fixed mutation rate across conditions",
@@ -475,6 +504,16 @@
       "id": "github:luria_delbruck_fluctuation::obs_broth_rate",
       "label": "obs_broth_rate",
       "metadata": {
+        "gaia": {
+          "provenance": {
+            "referenced_claims": [
+              "fixed_mutation_rate_law",
+              "obs_broth_rate"
+            ]
+          }
+        },
+        "prior": 0.85,
+        "prior_justification": "Mutation rates from five broth experiments.",
         "source_table": "artifacts/paper.pdf, Table 4"
       },
       "module": "mutation_rate",
@@ -490,6 +529,16 @@
       "id": "github:luria_delbruck_fluctuation::obs_synth_rate",
       "label": "obs_synth_rate",
       "metadata": {
+        "gaia": {
+          "provenance": {
+            "referenced_claims": [
+              "fixed_mutation_rate_law",
+              "obs_synth_rate"
+            ]
+          }
+        },
+        "prior": 0.85,
+        "prior_justification": "Mutation rates from four synthetic medium experiments.",
         "source_table": "artifacts/paper.pdf, Table 4"
       },
       "module": "mutation_rate",
@@ -500,7 +549,7 @@
     {
       "content": "The mutation rates obtained by the mean method (average $2.45 \\times 10^{-8}$) are all higher than the value found by the $p_0$ method ($0.47 \\times 10^{-8}$ for Exp. 23). This discrepancy is traced to the same cause as the excess standard deviation: early mutations (prior to time $t_0$) give rise to big clones of resistant bacteria. These big clones do not affect the $p_0$ method (which uses only the fraction of zero-count cultures) but they do inflate the average used by the mean method.",
       "content_hash": "48b45aca09a4d1b9bacff46397b1351d5c9dbf864c33cc35d6b7d0659e8ff52d",
-      "declaration_index": 6,
+      "declaration_index": 7,
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::mutation_rate_discrepancy_two_methods",
       "label": "mutation_rate_discrepancy_two_methods",
@@ -550,21 +599,528 @@
       "exported": false,
       "id": "github:luria_delbruck_fluctuation::aging_cultures_constant_fraction",
       "label": "aging_cultures_constant_fraction",
+      "metadata": {
+        "prior": 0.8,
+        "prior_justification": "Single experiment, qualitatively clear."
+      },
       "module": "discussion",
       "parameters": [],
       "title": "Resistant fraction stable in aging cultures",
       "type": "claim"
     },
     {
-      "content": "The fluctuation test method for studying mutations causing virus resistance has practical advantages: (1) segregation of mutant from normal organisms occurs at the one-cell stage by total elimination of normal bacteria; (2) more than $10^8$ bacteria may be tested on a single plate; (3) the method is applicable whenever the initial number of bacteria times the number of mutations per first division cycle is small, regardless of the absolute mutation rate.",
-      "content_hash": "78928c47258d0a68012dd7db203b179e487a44556db72efefd79157a72791df0",
-      "declaration_index": 2,
+      "content": "implies(github:luria_delbruck_fluctuation::plating_variance_equals_mean,github:luria_delbruck_fluctuation::plating_method_reliable)",
+      "content_hash": "993ae05714f105ca7374c56b69cfd8c494d4a2ae923bfc65faa4030a76fd21b4",
       "exported": false,
-      "id": "github:luria_delbruck_fluctuation::method_advantages",
-      "label": "method_advantages",
-      "module": "discussion",
+      "id": "github:luria_delbruck_fluctuation::__implication_result_56214950",
+      "label": "__implication_result_56214950",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::plating_variance_equals_mean,github:luria_delbruck_fluctuation::plating_method_reliable)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_d6bed0ce63aea18a",
+        "owning_strategy_type": "support",
+        "prior": 0.9,
+        "visibility": "formal_internal"
+      },
       "parameters": [],
-      "title": "Advantages of the fluctuation test method",
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::hypothesis_mutation,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+      "content_hash": "500c216ae736ce94c1baf12eb0267a6d5f55b6dda592e043ed52b847b6a5c144",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_88395690",
+      "label": "__implication_result_88395690",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::hypothesis_mutation,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_951053a998a28a77",
+        "owning_strategy_type": "support",
+        "prior": 0.9,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::hypothesis_acquired_immunity,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+      "content_hash": "df37c949902930f561c70e6cd6ddbdf73c30f71d0217fd4ec7fe615890679ef5",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_82d762cf",
+      "label": "__implication_result_82d762cf",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::hypothesis_acquired_immunity,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_b4660f4c5d821ead",
+        "owning_strategy_type": "support",
+        "prior": 0.1,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "matches(github:luria_delbruck_fluctuation::mutation_high_variance,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+      "content_hash": "90d853e7cc1005d44236a9808d356f4a1437da5e50cc54807660ab041c6981aa",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__equivalence_result_5217c1f1",
+      "label": "__equivalence_result_5217c1f1",
+      "metadata": {
+        "canonical_name": "matches(github:luria_delbruck_fluctuation::mutation_high_variance,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "equivalence_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "equivalence_result",
+        "owning_strategy_id": "lcs_b87de87aed81e360",
+        "owning_strategy_type": "compare",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "matches(github:luria_delbruck_fluctuation::immunity_variance_equals_mean,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+      "content_hash": "564faefbf18b3f4f1347e585ebb0bb3eed6cee6778a3b13d2b02939cb17ffbc4",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__equivalence_result_1249babe",
+      "label": "__equivalence_result_1249babe",
+      "metadata": {
+        "canonical_name": "matches(github:luria_delbruck_fluctuation::immunity_variance_equals_mean,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "equivalence_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "equivalence_result",
+        "owning_strategy_id": "lcs_b87de87aed81e360",
+        "owning_strategy_type": "compare",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::plating_variance_equals_mean,github:luria_delbruck_fluctuation::plating_method_reliable)",
+      "content_hash": "e889626063d82fff00ef252f5dd9a96db28206262073b485dc514c10b5577e03",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_14322334",
+      "label": "__conjunction_result_14322334",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::plating_variance_equals_mean,github:luria_delbruck_fluctuation::plating_method_reliable)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_8f18cb246dac4d1a",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_14322334,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+      "content_hash": "b2d2b806fe9967a3b674c3be6415d40ace36dbe2de6d6abda08617a174129258",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_d1bdc337",
+      "label": "__implication_result_d1bdc337",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_14322334,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_8f18cb246dac4d1a",
+        "owning_strategy_type": "support",
+        "prior": 0.9,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::mutation_high_variance,github:luria_delbruck_fluctuation::fluctuation_data_table3)",
+      "content_hash": "a4ef6d9db203a5af870d579ef3040cfcdc6c0116b80a7c146b24e3560b2c7d7a",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_af499b62",
+      "label": "__conjunction_result_af499b62",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::mutation_high_variance,github:luria_delbruck_fluctuation::fluctuation_data_table3)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_a8f2b7505e3d4b72",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_af499b62,github:luria_delbruck_fluctuation::distribution_fit_exp23)",
+      "content_hash": "83658d59f7e18239f6cb91df195702fc9b2154ea2afffa91436e9a92804c1800",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_bdf1ac57",
+      "label": "__implication_result_bdf1ac57",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_af499b62,github:luria_delbruck_fluctuation::distribution_fit_exp23)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_a8f2b7505e3d4b72",
+        "owning_strategy_type": "support",
+        "prior": 0.8,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean,github:luria_delbruck_fluctuation::distribution_fit_exp23)",
+      "content_hash": "5f71bba77cdacc850ae021fc720ddf0ca99acb7476a0040547727cb1b3e1f1a0",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_606cd37f",
+      "label": "__conjunction_result_606cd37f",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean,github:luria_delbruck_fluctuation::distribution_fit_exp23)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_866a112e60d01d33",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_606cd37f,github:luria_delbruck_fluctuation::clonal_grouping_observed)",
+      "content_hash": "f3b0ebf553b690945439e80befb953026b3d8a38437aed4fbb9943f6a22d4be0",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_bb703fd9",
+      "label": "__implication_result_bb703fd9",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_606cd37f,github:luria_delbruck_fluctuation::clonal_grouping_observed)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_866a112e60d01d33",
+        "owning_strategy_type": "support",
+        "prior": 0.85,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::experimental_std_dev_ratio,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+      "content_hash": "b26a1fdea6a41012de6f921b848500a008c7e8e39b15d0b77d77cb0484dfccc0",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_45eb05fa",
+      "label": "__implication_result_45eb05fa",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::experimental_std_dev_ratio,github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_e75e68b6cf2075d8",
+        "owning_strategy_type": "support",
+        "prior": 0.85,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::p0_mutation_rate_relation,github:luria_delbruck_fluctuation::fluctuation_data_table3)",
+      "content_hash": "0bb122fb0657e848f9dae00f2e38bba3f188f79959b70b9dc514593998d9f4e8",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_60bcd523",
+      "label": "__conjunction_result_60bcd523",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::p0_mutation_rate_relation,github:luria_delbruck_fluctuation::fluctuation_data_table3)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_4332140acefe60cf",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_60bcd523,github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23)",
+      "content_hash": "e8d46d26ee570e6d12fff35c5f4113e8082ad49fd0b25f4d4257340dda214b4c",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_2a8646c0",
+      "label": "__implication_result_2a8646c0",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_60bcd523,github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_4332140acefe60cf",
+        "owning_strategy_type": "support",
+        "prior": 0.85,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::mean_method_mutation_rate,github:luria_delbruck_fluctuation::fluctuation_data_table2)",
+      "content_hash": "c70db7a7bda26ca211be484d9ea7633de1f1ce052df28f7dcedde1af0ab5c6c0",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_e0407ed1",
+      "label": "__conjunction_result_e0407ed1",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::mean_method_mutation_rate,github:luria_delbruck_fluctuation::fluctuation_data_table2)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_11fe71f07754ef1b",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_e0407ed1,github:luria_delbruck_fluctuation::mutation_rate_mean_method)",
+      "content_hash": "74ef6aa9b2facf87994632b8b865a90f9669218e1cc96f4dd9effdd21d517d8a",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_6c920c0c",
+      "label": "__implication_result_6c920c0c",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_e0407ed1,github:luria_delbruck_fluctuation::mutation_rate_mean_method)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_11fe71f07754ef1b",
+        "owning_strategy_type": "support",
+        "prior": 0.85,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::fixed_mutation_rate_law,github:luria_delbruck_fluctuation::obs_broth_rate)",
+      "content_hash": "5a773f0edf1c1ae1883435278962b6037eecf6cc0c6fd07599710816732afc40",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_92ea40fd",
+      "label": "__implication_result_92ea40fd",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::fixed_mutation_rate_law,github:luria_delbruck_fluctuation::obs_broth_rate)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_7865aa811ff79c04",
+        "owning_strategy_type": "support",
+        "prior": 0.8,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::fixed_mutation_rate_law,github:luria_delbruck_fluctuation::obs_synth_rate)",
+      "content_hash": "37f2e854eb77c5e1975ee5e80919aee3fa2a7172305ff66491f7b36554506bd8",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_ed618ec1",
+      "label": "__implication_result_ed618ec1",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::fixed_mutation_rate_law,github:luria_delbruck_fluctuation::obs_synth_rate)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_648e81c37d6a0aed",
+        "owning_strategy_type": "support",
+        "prior": 0.8,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::fixed_mutation_rate_law,github:luria_delbruck_fluctuation::mutation_rate_mean_method)",
+      "content_hash": "580a5316f9d73b929a0bb0c64cc6e761002b820658aeed5211b82d01ba5ecc66",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_69cfe9b7",
+      "label": "__conjunction_result_69cfe9b7",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::fixed_mutation_rate_law,github:luria_delbruck_fluctuation::mutation_rate_mean_method)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_736462fd2fbc5a49",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_69cfe9b7,github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions)",
+      "content_hash": "55be69e0e5c2cb5f15636fa939482d59b19cfa279ac2c5b7969c43be02eb3433",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_9b3a4c65",
+      "label": "__implication_result_9b3a4c65",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_69cfe9b7,github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_736462fd2fbc5a49",
+        "owning_strategy_type": "support",
+        "prior": 0.85,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23,github:luria_delbruck_fluctuation::mutation_rate_mean_method)",
+      "content_hash": "1d93ca47fdd9d621d1402a4e48e128c6a7533e395ba8540484fb9f08e6cd02ce",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_db0c1758",
+      "label": "__conjunction_result_db0c1758",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23,github:luria_delbruck_fluctuation::mutation_rate_mean_method)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_422ca77bac8b9d81",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_db0c1758,github:luria_delbruck_fluctuation::mutation_rate_discrepancy_two_methods)",
+      "content_hash": "e8aa7dcc15556036399a8a6ff5416264fb34ab815a9884d4db0e05264db63009",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_9a0ebae0",
+      "label": "__implication_result_9a0ebae0",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_db0c1758,github:luria_delbruck_fluctuation::mutation_rate_discrepancy_two_methods)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_422ca77bac8b9d81",
+        "owning_strategy_type": "support",
+        "prior": 0.85,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "all_true(github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean,github:luria_delbruck_fluctuation::clonal_grouping_observed,github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions)",
+      "content_hash": "e0a3c4150a9c0a78ea50de9b39614d56d0be3b6af0d70fede9905068ed608f2e",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__conjunction_result_213dde32",
+      "label": "__conjunction_result_213dde32",
+      "metadata": {
+        "canonical_name": "all_true(github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean,github:luria_delbruck_fluctuation::clonal_grouping_observed,github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "conjunction_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "conjunction_result",
+        "owning_strategy_id": "lcs_a51c9b54eb30a8d7",
+        "owning_strategy_type": "support",
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::__conjunction_result_213dde32,github:luria_delbruck_fluctuation::resistance_is_heritable_mutation)",
+      "content_hash": "f3a2bad6ff5e06a7fc76286d09183ae3039b24925dd13f17c9909a6cc90a0886",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_cab8bb59",
+      "label": "__implication_result_cab8bb59",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::__conjunction_result_213dde32,github:luria_delbruck_fluctuation::resistance_is_heritable_mutation)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_a51c9b54eb30a8d7",
+        "owning_strategy_type": "support",
+        "prior": 0.9,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
+      "type": "claim"
+    },
+    {
+      "content": "implies(github:luria_delbruck_fluctuation::aging_cultures_constant_fraction,github:luria_delbruck_fluctuation::resistance_is_heritable_mutation)",
+      "content_hash": "b3aa130633e748831f98be2707e50e9d7bff8f02ed63e9ece00ada22142be0ff",
+      "exported": false,
+      "id": "github:luria_delbruck_fluctuation::__implication_result_990d642f",
+      "label": "__implication_result_990d642f",
+      "metadata": {
+        "canonical_name": "implies(github:luria_delbruck_fluctuation::aging_cultures_constant_fraction,github:luria_delbruck_fluctuation::resistance_is_heritable_mutation)",
+        "generated": true,
+        "generated_kind": "helper_claim",
+        "helper_kind": "implication_result",
+        "helper_visibility": "formal_internal",
+        "intermediate_role": "implication_result",
+        "owning_strategy_id": "lcs_8768f474e60d021b",
+        "owning_strategy_type": "support",
+        "prior": 0.75,
+        "visibility": "formal_internal"
+      },
+      "parameters": [],
       "type": "claim"
     }
   ],
@@ -605,7 +1161,21 @@
   "strategies": [
     {
       "conclusion": "github:luria_delbruck_fluctuation::plating_method_reliable",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_56214950",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::plating_variance_equals_mean",
+              "github:luria_delbruck_fluctuation::plating_method_reliable"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.9,
         "reason": "@plating_variance_equals_mean shows that in all three experiments, the variance of colony counts from repeated platings of the same culture matches the mean (chi-squared tests give $P = 0.2$ to $0.8$), consistent with Poisson sampling. Since only sampling variance is observed, the plating method introduces no additional fluctuations, validating it as a reliable measurement tool."
       },
@@ -613,40 +1183,157 @@
         "github:luria_delbruck_fluctuation::plating_variance_equals_mean"
       ],
       "scope": "local",
-      "strategy_id": "lcs_f4ea383f96f88a98",
-      "type": "support"
-    },
-    {
-      "conclusion": "github:luria_delbruck_fluctuation::hypothesis_mutation",
-      "metadata": {
-        "prior": 0.9,
-        "reason": "@mutation_high_variance predicts variance >> mean due to the clonal structure of resistant bacteria (early mutations → large clones → jackpots). @observed_variance_much_greater_than_mean confirms this prediction: variance/mean ratios of 100-600x in every experiment. The observation matches the mutation prediction qualitatively and quantitatively."
-      },
-      "premises": [
-        "github:luria_delbruck_fluctuation::mutation_high_variance",
-        "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
-      ],
-      "scope": "local",
-      "strategy_id": "lcs_35a1587ba0c1818a",
-      "type": "support"
-    },
-    {
-      "conclusion": "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
-      "metadata": {
-        "prior": 0.02,
-        "reason": "@immunity_variance_equals_mean predicts Poisson distribution (variance = mean). @observed_variance_much_greater_than_mean shows variance is 100-600x the mean in every experiment. The acquired immunity prediction is falsified by orders of magnitude. This observation is fatal to the hypothesis."
-      },
-      "premises": [
-        "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
-        "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
-      ],
-      "scope": "local",
-      "strategy_id": "lcs_ea800c14f4f14762",
+      "strategy_id": "lcs_d6bed0ce63aea18a",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_88395690",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::hypothesis_mutation",
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
+        "prior": 0.9,
+        "reason": "The @hypothesis_mutation predicts that resistant bacteria arise by spontaneous mutation prior to virus exposure, creating clones of varying sizes. Early mutations produce large clones ('jackpots'), late mutations produce small clones. This clonal structure necessarily generates variance far exceeding the mean across replicate cultures."
+      },
+      "premises": [
+        "github:luria_delbruck_fluctuation::hypothesis_mutation"
+      ],
+      "scope": "local",
+      "strategy_id": "lcs_951053a998a28a77",
+      "type": "support"
+    },
+    {
+      "background": [
+        "github:luria_delbruck_fluctuation::immunity_predicts_poisson"
+      ],
+      "conclusion": "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_82d762cf",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
+        "prior": 0.1,
+        "reason": "The @hypothesis_acquired_immunity predicts each bacterium independently survives virus attack with equal probability, giving a Poisson distribution where variance equals mean. This cannot account for the observed variance that is 100-600x the mean."
+      },
+      "premises": [
+        "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity"
+      ],
+      "scope": "local",
+      "strategy_id": "lcs_b4660f4c5d821ead",
+      "type": "support"
+    },
+    {
+      "conclusion": "github:luria_delbruck_fluctuation::_anon_000",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__equivalence_result_5217c1f1",
+            "operator": "equivalence",
+            "variables": [
+              "github:luria_delbruck_fluctuation::mutation_high_variance",
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__equivalence_result_1249babe",
+            "operator": "equivalence",
+            "variables": [
+              "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::_anon_000",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__equivalence_result_1249babe",
+              "github:luria_delbruck_fluctuation::__equivalence_result_5217c1f1"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "formalization_template": "compare",
+        "generated_formal_expr": true,
+        "prior": 0.95,
+        "reason": "@mutation_high_variance predicts variance >> mean (equation 11-12), which matches @observed_variance_much_greater_than_mean (variance/mean = 100-600x). @immunity_variance_equals_mean predicts variance = mean (Poisson), which is falsified by orders of magnitude. The mutation prediction matches the observation qualitatively and quantitatively; the immunity prediction is catastrophically wrong."
+      },
+      "premises": [
+        "github:luria_delbruck_fluctuation::mutation_high_variance",
+        "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
+        "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+      ],
+      "scope": "local",
+      "strategy_id": "lcs_b87de87aed81e360",
+      "type": "compare"
+    },
+    {
+      "conclusion": "github:luria_delbruck_fluctuation::_anon_000",
+      "metadata": {
+        "reason": "Both hypotheses attempt to explain the same observation: the distribution of resistant bacteria across replicate cultures. The mutation hypothesis predicts and explains the extreme variance; the acquired immunity hypothesis predicts Poisson variance and is decisively refuted."
+      },
+      "premises": [
+        "github:luria_delbruck_fluctuation::hypothesis_mutation",
+        "github:luria_delbruck_fluctuation::hypothesis_acquired_immunity",
+        "github:luria_delbruck_fluctuation::mutation_high_variance",
+        "github:luria_delbruck_fluctuation::immunity_variance_equals_mean",
+        "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+      ],
+      "scope": "local",
+      "strategy_id": "lcs_8a3293864bde1ed7",
+      "sub_strategies": [
+        "lcs_951053a998a28a77",
+        "lcs_b4660f4c5d821ead",
+        "lcs_b87de87aed81e360"
+      ],
+      "type": "abduction"
+    },
+    {
+      "conclusion": "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_14322334",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::plating_variance_equals_mean",
+              "github:luria_delbruck_fluctuation::plating_method_reliable"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_d1bdc337",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_14322334",
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.9,
         "reason": "@plating_variance_equals_mean shows that when sampling from the SAME culture, variance matches mean (Poisson). @plating_method_reliable confirms the method introduces no artifacts. Therefore the excess variance observed across DIFFERENT cultures is real biological variation, not measurement error."
       },
@@ -655,7 +1342,7 @@
         "github:luria_delbruck_fluctuation::plating_method_reliable"
       ],
       "scope": "local",
-      "strategy_id": "lcs_e5a820ee72ab3795",
+      "strategy_id": "lcs_8f18cb246dac4d1a",
       "type": "support"
     },
     {
@@ -664,7 +1351,29 @@
         "github:luria_delbruck_fluctuation::hypothesis_mutation"
       ],
       "conclusion": "github:luria_delbruck_fluctuation::distribution_fit_exp23",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_af499b62",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::mutation_high_variance",
+              "github:luria_delbruck_fluctuation::fluctuation_data_table3"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_bdf1ac57",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_af499b62",
+              "github:luria_delbruck_fluctuation::distribution_fit_exp23"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.8,
         "reason": "@mutation_high_variance predicts a specific distributional shape with heavy right tail. @fluctuation_data_table3 provides the Exp. 23 data (87 cultures). The calculated distribution matches observed data well for small values (0 and 1 resistant bacteria), with expected over-representation in classes corresponding to powers of 2."
       },
@@ -673,40 +1382,101 @@
         "github:luria_delbruck_fluctuation::fluctuation_data_table3"
       ],
       "scope": "local",
-      "strategy_id": "lcs_3c21d8207bf542b0",
+      "strategy_id": "lcs_a8f2b7505e3d4b72",
       "type": "support"
     },
     {
+      "background": [
+        "github:luria_delbruck_fluctuation::fluctuation_protocol",
+        "github:luria_delbruck_fluctuation::mutation_predicts_clonal_grouping"
+      ],
       "conclusion": "github:luria_delbruck_fluctuation::clonal_grouping_observed",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_606cd37f",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
+              "github:luria_delbruck_fluctuation::distribution_fit_exp23"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_bb703fd9",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_606cd37f",
+              "github:luria_delbruck_fluctuation::clonal_grouping_observed"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.85,
-        "reason": "@observed_variance_much_greater_than_mean shows bacteria appear in groups rather than randomly. @distribution_fit_exp23 shows the distribution shape matches the clonal growth model. The simplest explanation for this grouping is genetic relatedness — clones from common mutant ancestors."
+        "reason": "@observed_variance_much_greater_than_mean shows bacteria appear in groups rather than randomly. @distribution_fit_exp23 shows the distribution shape matches the clonal growth model. This is consistent with the theoretical prediction @mutation_predicts_clonal_grouping that mutation produces clonal grouping. The simplest explanation is genetic relatedness — clones from common mutant ancestors."
       },
       "premises": [
         "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
         "github:luria_delbruck_fluctuation::distribution_fit_exp23"
       ],
       "scope": "local",
-      "strategy_id": "lcs_91c5be06bb65d75c",
+      "strategy_id": "lcs_866a112e60d01d33",
       "type": "support"
     },
     {
-      "conclusion": "github:luria_delbruck_fluctuation::clonal_grouping_observed",
+      "conclusion": "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_45eb05fa",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::experimental_std_dev_ratio",
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean"
+            ]
+          }
+        ]
+      },
       "metadata": {
-        "prior": 0.8,
-        "reason": "@mutation_high_variance predicts std.dev./mean ratio >> 1 (equation 12). @experimental_std_dev_ratio shows experimental ratios are in the same order of magnitude (and typically even larger). Both experimental and theoretical ratios are >> 1, ruling out Poisson and confirming clonal grouping."
+        "formalization_template": "support",
+        "generated_formal_expr": true,
+        "prior": 0.85,
+        "reason": "@experimental_std_dev_ratio shows the ratio of standard deviation to mean is >> 1 in every experiment (ranging from 0.33 to 7.8), providing quantitative confirmation that the variance dramatically exceeds the mean across all experimental conditions."
       },
       "premises": [
-        "github:luria_delbruck_fluctuation::experimental_std_dev_ratio",
-        "github:luria_delbruck_fluctuation::mutation_high_variance"
+        "github:luria_delbruck_fluctuation::experimental_std_dev_ratio"
       ],
       "scope": "local",
-      "strategy_id": "lcs_c8b111521f21d1c1",
+      "strategy_id": "lcs_e75e68b6cf2075d8",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_60bcd523",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::p0_mutation_rate_relation",
+              "github:luria_delbruck_fluctuation::fluctuation_data_table3"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_2a8646c0",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_60bcd523",
+              "github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.85,
         "reason": "@p0_mutation_rate_relation gives $p_0 = e^{-m}$. @fluctuation_data_table3 provides the Exp. 23 data: 29 out of 87 cultures have zero resistant bacteria, so $p_0 = 29/87 = 0.33$. Solving: $m = -\\ln(0.33) = 1.10$. With $N_t = 2.4 \\times 10^8$, equation (4) gives $a = m/N_t = 0.47 \\times 10^{-8}$. The calculation is straightforward but the $p_0$ estimate discards all information from non-zero cultures."
       },
@@ -715,12 +1485,34 @@
         "github:luria_delbruck_fluctuation::fluctuation_data_table3"
       ],
       "scope": "local",
-      "strategy_id": "lcs_36a71dc9e06e19e6",
+      "strategy_id": "lcs_4332140acefe60cf",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::mutation_rate_mean_method",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_e0407ed1",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::mean_method_mutation_rate",
+              "github:luria_delbruck_fluctuation::fluctuation_data_table2"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_6c920c0c",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_e0407ed1",
+              "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.85,
         "reason": "@mean_method_mutation_rate provides the transcendental equation $r = a N_t \\ln(N_t C a)$. @fluctuation_data_table2 provides the observed average resistant bacteria per culture $r$ and total bacteria $N_t$ for each experiment. Solving equation (8) numerically for each experiment yields the mutation rate values in Table 4. The computation is numerical but straightforward."
       },
@@ -729,38 +1521,105 @@
         "github:luria_delbruck_fluctuation::fluctuation_data_table2"
       ],
       "scope": "local",
-      "strategy_id": "lcs_449ba2a1c0bf4d50",
+      "strategy_id": "lcs_11fe71f07754ef1b",
       "type": "support"
     },
     {
-      "conclusion": "github:luria_delbruck_fluctuation::fixed_mutation_rate_law",
+      "conclusion": "github:luria_delbruck_fluctuation::obs_broth_rate",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_92ea40fd",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::fixed_mutation_rate_law",
+              "github:luria_delbruck_fluctuation::obs_broth_rate"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.8,
-        "reason": "@obs_broth_rate shows five independent broth culture experiments yield mutation rates from $1.4$ to $4.1 \\times 10^{-8}$, clustered within a narrow range. This consistency across experiments with different numbers of cultures (5 to 10) and culture volumes supports the existence of a fixed mutation rate."
+        "reason": "If a @fixed_mutation_rate_law exists, broth culture experiments should yield consistent mutation rate estimates. @obs_broth_rate shows five independent experiments yield rates from $1.4$ to $4.1 \\times 10^{-8}$, clustered within a narrow range — confirming the law's prediction."
       },
       "premises": [
-        "github:luria_delbruck_fluctuation::obs_broth_rate"
+        "github:luria_delbruck_fluctuation::fixed_mutation_rate_law"
       ],
       "scope": "local",
-      "strategy_id": "lcs_d06e3fd0979b40ab",
+      "strategy_id": "lcs_7865aa811ff79c04",
+      "type": "support"
+    },
+    {
+      "conclusion": "github:luria_delbruck_fluctuation::obs_synth_rate",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_ed618ec1",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::fixed_mutation_rate_law",
+              "github:luria_delbruck_fluctuation::obs_synth_rate"
+            ]
+          }
+        ]
+      },
+      "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
+        "prior": 0.8,
+        "reason": "If a @fixed_mutation_rate_law exists, synthetic medium experiments should also yield consistent rates overlapping with broth values. @obs_synth_rate shows four experiments yield rates from $1.1$ to $3.0 \\times 10^{-8}$, overlapping with broth despite very different metabolic conditions — confirming the law's prediction across media."
+      },
+      "premises": [
+        "github:luria_delbruck_fluctuation::fixed_mutation_rate_law"
+      ],
+      "scope": "local",
+      "strategy_id": "lcs_648e81c37d6a0aed",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::fixed_mutation_rate_law",
       "metadata": {
-        "prior": 0.8,
-        "reason": "@obs_synth_rate shows four synthetic medium experiments yield mutation rates from $1.1$ to $3.0 \\times 10^{-8}$, overlapping with the broth culture values despite very different metabolic conditions and growth rates. This cross-medium consistency strongly supports a fixed mutation rate per physiological time unit."
+        "reason": "Broth culture experiments and synthetic medium experiments are conducted under very different metabolic conditions (rich vs minimal medium) and growth rates, yet yield overlapping mutation rate estimates. This cross-condition independence strengthens the inductive evidence for a fixed mutation rate."
       },
       "premises": [
+        "github:luria_delbruck_fluctuation::obs_broth_rate",
         "github:luria_delbruck_fluctuation::obs_synth_rate"
       ],
       "scope": "local",
-      "strategy_id": "lcs_694581096a1f537d",
-      "type": "support"
+      "strategy_id": "lcs_db6fc158b820220d",
+      "sub_strategies": [
+        "lcs_7865aa811ff79c04",
+        "lcs_648e81c37d6a0aed"
+      ],
+      "type": "induction"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_69cfe9b7",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::fixed_mutation_rate_law",
+              "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_9b3a4c65",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_69cfe9b7",
+              "github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.85,
         "reason": "@fixed_mutation_rate_law is confirmed by independent experiments across conditions. @mutation_rate_mean_method shows the values from Table 4 are consistent across culture volume (10 cc vs 0.2 cc) and number of cultures (5 to 100). This consistency vindicates the assumption of a fixed mutation rate per physiological time unit."
       },
@@ -769,12 +1628,34 @@
         "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
       ],
       "scope": "local",
-      "strategy_id": "lcs_69461673e490f307",
+      "strategy_id": "lcs_736462fd2fbc5a49",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::mutation_rate_discrepancy_two_methods",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_db0c1758",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::mutation_rate_p0_method_exp23",
+              "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_9a0ebae0",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_db0c1758",
+              "github:luria_delbruck_fluctuation::mutation_rate_discrepancy_two_methods"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.85,
         "reason": "@mutation_rate_p0_method_exp23 gives $a = 0.47 \\times 10^{-8}$ using only the zero-count fraction. @mutation_rate_mean_method gives an average of $2.45 \\times 10^{-8}$ using the full average. The mean method is inflated by 'jackpot' cultures from early mutations, which contribute large clone sizes to the average but do not affect the fraction of zero-count cultures. This discrepancy is itself consistent with the mutation hypothesis's prediction of a heavy-tailed distribution."
       },
@@ -783,12 +1664,35 @@
         "github:luria_delbruck_fluctuation::mutation_rate_mean_method"
       ],
       "scope": "local",
-      "strategy_id": "lcs_c93882e59a2ed3ae",
+      "strategy_id": "lcs_422ca77bac8b9d81",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__conjunction_result_213dde32",
+            "operator": "conjunction",
+            "variables": [
+              "github:luria_delbruck_fluctuation::observed_variance_much_greater_than_mean",
+              "github:luria_delbruck_fluctuation::clonal_grouping_observed",
+              "github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions"
+            ]
+          },
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_cab8bb59",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::__conjunction_result_213dde32",
+              "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.9,
         "reason": "Three lines of evidence converge: (1) @observed_variance_much_greater_than_mean — the fluctuation data conflicts with the Poisson prediction of the acquired immunity hypothesis and matches the high-variance prediction of the mutation hypothesis; (2) @clonal_grouping_observed — resistant bacteria appear in clonal groups, consistent with common mutant ancestors; (3) @mutation_rate_consistent_across_conditions — the mutation rate estimated from diverse experimental conditions is consistent (~$2.45 \\times 10^{-8}$), confirming the core assumption of a fixed mutation rate per time unit."
       },
@@ -798,12 +1702,26 @@
         "github:luria_delbruck_fluctuation::mutation_rate_consistent_across_conditions"
       ],
       "scope": "local",
-      "strategy_id": "lcs_095b8cc18f59fb8f",
+      "strategy_id": "lcs_a51c9b54eb30a8d7",
       "type": "support"
     },
     {
       "conclusion": "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation",
+      "formal_expr": {
+        "operators": [
+          {
+            "conclusion": "github:luria_delbruck_fluctuation::__implication_result_990d642f",
+            "operator": "implication",
+            "variables": [
+              "github:luria_delbruck_fluctuation::aging_cultures_constant_fraction",
+              "github:luria_delbruck_fluctuation::resistance_is_heritable_mutation"
+            ]
+          }
+        ]
+      },
       "metadata": {
+        "formalization_template": "support",
+        "generated_formal_expr": true,
         "prior": 0.75,
         "reason": "@aging_cultures_constant_fraction shows that the resistant fraction does not change in aging cultures, even when sensitive bacteria die. This confirms a key assumption of the mutation theory: that resistance is expressed in offspring (not induced by virus contact), and that resistant and sensitive bacteria have identical growth and death rates. This provides additional support for the conclusion that resistance arises by spontaneous mutation."
       },
@@ -811,7 +1729,7 @@
         "github:luria_delbruck_fluctuation::aging_cultures_constant_fraction"
       ],
       "scope": "local",
-      "strategy_id": "lcs_1ca3a902461fec18",
+      "strategy_id": "lcs_8768f474e60d021b",
       "type": "support"
     }
   ]
